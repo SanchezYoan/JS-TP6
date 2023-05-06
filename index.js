@@ -1,16 +1,32 @@
 const form = document.querySelector("form");
-let doing = "";
 
-toDo.addEventListener("input", (e) => {
-    doing = e.target.value;
-})
+function storeList() {
+    window.localStorage.todoList = list.innerHTML;
+}
+
+function getTodos() {
+    if (window.localStorage.todoList) {
+        list.innerHTML = window.localStorage.todoList
+    } else {
+        list.innerHTML = "<li>Cliquez sur une tâche pour la supprimer</li>"
+    }
+}
+
+window.addEventListener('load', getTodos())
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    // console.log(e);
+    list.innerHTML += `<li>${item.value}</li>`
+    item.value = "";
+    storeList();
+})
 
-    document.querySelector("form > ul").innerHTML = `
-    <li>${doing}</li>`
-        
+list.addEventListener("click", (e) => {
+    if (e.target.classList.contains("checked")) {
+        e.target.remove()
 
+    } else {
+        e.target.classList.add("checked")
+    }
+    storeList();
 })
